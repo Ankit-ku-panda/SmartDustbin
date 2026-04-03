@@ -1,0 +1,44 @@
+#include <Servo.h>
+
+Servo myServo;
+int moisturePin = A0;     // Soil moisture sensor connected to analog pin A0
+int moistureValue = 0;    // To store sensor reading
+int dryThreshold = 500;   // Set this based on your sensor (adjust after testing)
+
+void setup() {
+  Serial.begin(9600);
+  myServo.attach(9); // Connect servo signal wire to digital pin 9
+  myServo.write(90); // Initial position (neutral)
+  delay(1000);
+}
+
+void loop() {
+  moistureValue = analogRead(moisturePin);
+  Serial.print("Moisture Value: ");
+  Serial.println(moistureValue);
+  
+  if (moistureValue < dryThreshold) {
+    // Dry waste detected
+    Serial.println("Dry waste detected!");
+    openDryDustbin();
+  }
+  else {
+    // Wet waste detected
+    Serial.println("Wet waste detected!");
+    openWetDustbin();
+  }
+
+  delay(2000); // Small delay to avoid rapid switching
+}
+
+void openDryDustbin() {
+  myServo.write(0);   // Rotate servo clockwise
+  delay(2000);        // Keep dustbin open for 2 seconds
+  myServo.write(90);  // Return to neutral position
+}
+
+void openWetDustbin() {
+  myServo.write(180); // Rotate servo counter-clockwise
+  delay(2000);        // Keep dustbin open for 2 seconds
+  myServo.write(90);  // Return to neutral position
+}
