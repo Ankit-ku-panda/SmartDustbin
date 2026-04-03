@@ -58,7 +58,7 @@ It uses a **soil moisture sensor** to classify waste as **wet or dry**, and a **
 
 ## 🔌 Circuit Diagram
 
-![Circuit Diagram](./circuit.png)
+![Circuit Diagram](./Circuit.png)
 
 ---
 
